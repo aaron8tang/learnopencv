@@ -21,14 +21,14 @@ parser.add_argument('--video', help='Path to video file.')
 args = parser.parse_args()
         
 # Load names of classes
-classesFile = "coco.names";
+classesFile = "coco.names"
 classes = None
 with open(classesFile, 'rt') as f:
     classes = f.read().rstrip('\n').split('\n')
 
 # Give the configuration and weight files for the model and load the network using them.
-modelConfiguration = "yolov3.cfg";
-modelWeights = "yolov3.weights";
+modelConfiguration = "yolov3.cfg"
+modelWeights = "yolov3.weights"
 
 net = cv.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
 net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
@@ -64,9 +64,6 @@ def postprocess(frame, outs):
     frameHeight = frame.shape[0]
     frameWidth = frame.shape[1]
 
-    classIds = []
-    confidences = []
-    boxes = []
     # Scan through all the bounding boxes output from the network and keep only the
     # ones with high confidence scores. Assign the box's class label as the class with the highest score.
     classIds = []
@@ -137,6 +134,8 @@ while cv.waitKey(1) < 0:
         print("Done processing !!!")
         print("Output file is stored as ", outputFile)
         cv.waitKey(3000)
+        # Release device
+        cap.release()
         break
 
     # Create a 4D blob from a frame.
@@ -158,7 +157,7 @@ while cv.waitKey(1) < 0:
 
     # Write the frame with the detection boxes
     if (args.image):
-        cv.imwrite(outputFile, frame.astype(np.uint8));
+        cv.imwrite(outputFile, frame.astype(np.uint8))
     else:
         vid_writer.write(frame.astype(np.uint8))
 

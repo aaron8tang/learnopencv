@@ -1,3 +1,4 @@
+from __future__ import division
 import cv2
 import time
 import numpy as np
@@ -20,9 +21,7 @@ t = time.time()
 # input image dimensions for the network
 inHeight = 368
 inWidth = int(((aspect_ratio*inHeight)*8)//8)
-
-inpBlob = cv2.dnn.blobFromImage(frame, 1.0 / 255, (inWidth, inHeight),
-                          (0, 0, 0), swapRB=False, crop=False)
+inpBlob = cv2.dnn.blobFromImage(frame, 1.0 / 255, (inWidth, inHeight), (0, 0, 0), swapRB=False, crop=False)
 
 net.setInput(inpBlob)
 
